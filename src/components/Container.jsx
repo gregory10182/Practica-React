@@ -12,16 +12,10 @@ const Container = () => {
         fetch(`https://pokeapi.co/api/v2/pokemon/${nombre}`)
         .then((res) => {
             if (res.status !== 200) {
-                console.log(res);
-                document.getElementById("pokeImg").src = "https://media.tenor.com/WUEKqaYhVsUAAAAC/pokemon-sad.gif";
-                document.getElementById("tipo").innerHTML = "none";
-                document.getElementById("movimientos").innerHTML = "none, none";
-                document.getElementById("HP").innerHTML = "0";
-                document.getElementById("ATK").innerHTML = "0";
-                document.getElementById("DEF").innerHTML = "0";
-                document.getElementById("SPATK").innerHTML = "0";
-                document.getElementById("SPDEF").innerHTML = "0";
-                document.getElementById("SPEED").innerHTML = "0";
+                pokeImage("https://media.tenor.com/WUEKqaYhVsUAAAAC/pokemon-sad.gif")
+                pokeType('none');
+                pokeMoves('none', 'none');
+                pokeStats('0', '0', '0', '0', '0', '0');
             }
             else {
                 return res.json();
@@ -39,18 +33,44 @@ const Container = () => {
                 let spatk = data.stats[3].base_stat;
                 let spdef = data.stats[4].base_stat;
                 let speed = data.stats[5].base_stat;
-                
-                document.getElementById("pokeImg").src = pokeImg;
-                document.getElementById("tipo").innerHTML = pokeT;
-                document.getElementById("movimientos").innerHTML = pokeM1 + ', ' + pokeM2;
-                document.getElementById("HP").innerHTML = hp;
-                document.getElementById("ATK").innerHTML = atk;
-                document.getElementById("DEF").innerHTML = def;
-                document.getElementById("SPATK").innerHTML = spatk;
-                document.getElementById("SPDEF").innerHTML = spdef;
-                document.getElementById("SPEED").innerHTML = speed;
+                pokeImage(pokeImg);
+                pokeType(pokeT);
+                pokeMoves(pokeM1, pokeM2);
+                pokeStats(hp, atk, def, spatk, spdef, speed);
             }
         })
+    }
+
+    const pokeImage = (url) => {
+        const pokePhoto = document.getElementById("pokeImg");
+        pokePhoto.src = url;
+    }
+    
+    
+    const pokeType = (tipo) => {
+        const type = document.getElementById("tipo");
+        type.innerHTML = tipo;
+    }
+    
+    const pokeMoves = (m1, m2) => {
+        const moves = document.getElementById("movimientos");
+        moves.innerHTML = m1 + ', ' + m2;
+    }
+    
+    const pokeStats = (hp, atk, def, spatk, spdef, speed) => {
+        const health = document.getElementById("HP");
+        const attack = document.getElementById("ATK");
+        const defense = document.getElementById("DEF");
+        const sp_attack = document.getElementById("SPATK");
+        const sp_defense = document.getElementById("SPDEF");
+        const speedy = document.getElementById("SPEED");
+    
+        health.innerHTML = hp;
+        attack.innerHTML = atk
+        defense.innerHTML = def
+        sp_attack.innerHTML = spatk
+        sp_defense.innerHTML = spdef
+        speedy.innerHTML = speed
     }
 
     return (
