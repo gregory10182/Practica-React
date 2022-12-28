@@ -2,82 +2,46 @@ import React from "react";
 import Busqueda from "./Busqueda";
 import Pantalla from "./Pantalla";
 import Estadisticas from "./Estadisticas";
-
-export const PokeimgContext = React.createContext();
+import { useState } from "react";
 
 
 const Container = () => {
 
-    const Pokemon = (nombre) => {
-        fetch(`https://pokeapi.co/api/v2/pokemon/${nombre}`)
-        .then((res) => {
-            if (res.status !== 200) {
-                pokeImage("https://media.tenor.com/WUEKqaYhVsUAAAAC/pokemon-sad.gif")
-                pokeType('none');
-                pokeMoves('none', 'none');
-                pokeStats('0', '0', '0', '0', '0', '0');
-            }
-            else {
-                return res.json();
-            }
-        }).then(data => {
-            if (data) {
-                console.log(data);
-                let pokeImg = data.sprites.front_default;
-                let pokeT = data.types[0].type.name;
-                let pokeM1 = data.abilities[0].ability.name;
-                let pokeM2 = data.abilities[1].ability.name;
-                let hp = data.stats[0].base_stat;
-                let atk = data.stats[1].base_stat;
-                let def = data.stats[2].base_stat;
-                let spatk = data.stats[3].base_stat;
-                let spdef = data.stats[4].base_stat;
-                let speed = data.stats[5].base_stat;
-                pokeImage(pokeImg);
-                pokeType(pokeT);
-                pokeMoves(pokeM1, pokeM2);
-                pokeStats(hp, atk, def, spatk, spdef, speed);
-            }
-        })
+    const [img, setImg] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2_A-5YS5jJ_4P11o7NYoLw-LYBE0Am1zmej0ksS1WdHYy97Lg");
+    const [type, setType] = useState("");
+    const [Moves, setMoves] = useState([]);
+    const [Stats, setStats] = useState([]);
+    
+    const pokeimg = (image) => {
+        setImg(image);
+    } 
+    
+    const pokeType = (type) => {
+        setType(type);
     }
 
-    const pokeImage = (url) => {
-        const pokePhoto = document.getElementById("pokeImg");
-        pokePhoto.src = url;
+    const pokeMoves = (Moves) => {
+        setMoves(Moves);
     }
-    
-    
-    const pokeType = (tipo) => {
-        const type = document.getElementById("tipo");
-        type.innerHTML = tipo;
-    }
-    
-    const pokeMoves = (m1, m2) => {
-        const moves = document.getElementById("movimientos");
-        moves.innerHTML = m1 + ', ' + m2;
-    }
-    
-    const pokeStats = (hp, atk, def, spatk, spdef, speed) => {
-        const health = document.getElementById("HP");
-        const attack = document.getElementById("ATK");
-        const defense = document.getElementById("DEF");
-        const sp_attack = document.getElementById("SPATK");
-        const sp_defense = document.getElementById("SPDEF");
-        const speedy = document.getElementById("SPEED");
-    
-        health.innerHTML = hp;
-        attack.innerHTML = atk
-        defense.innerHTML = def
-        sp_attack.innerHTML = spatk
-        sp_defense.innerHTML = spdef
-        speedy.innerHTML = speed
+
+    const pokeStats = (stats) => {
+        setStats(stats);
     }
 
     return (
         <div className="Pokedex">
-            <Busqueda Pokemon={Pokemon}/>
-            <Pantalla />
-            <Estadisticas/>
+            <Busqueda 
+                pokeimg={pokeimg} 
+                pokeType={pokeType}
+                pokeMoves={pokeMoves}
+                pokeStats={pokeStats}
+                />
+            <Pantalla img={img}/>
+            <Estadisticas  
+                type = {type} 
+                Moves = {Moves} 
+                Stats = {Stats}
+                />
         </div>
     )
 }

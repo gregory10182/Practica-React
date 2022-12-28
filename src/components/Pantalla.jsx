@@ -4,11 +4,12 @@ import React from "react";
 
 const Pantalla = props => {
 
+    const {img} = props;
     
     return (
         <div className="marco">
             <div className="marcoI">
-                <img id="pokeImg" src="https://cdn-icons-png.flaticon.com/512/188/188965.png" alt=""/>
+                <img id="pokeImg" src={img} alt=""/>
             </div>
         </div>
     )
